@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { loadImportedDiagnostic } from '../lib/importDiagnostic';
 import type { Goal, UserProfile, WeaknessArea } from '../types';
 import { GOAL_LABELS, WEAKNESS_LABELS } from '../data/scenarios';
 import { buildMasterPlan, inferPlLevelFromGoal, type GoalType, type PlannerResult } from '../lib/planner';
@@ -47,16 +48,26 @@ const defaultTargetLevelByGoal: Record<Goal, string> = {
 
 type Step = 'goal' | 'target' | 'weakness';
 
+function initialWeaknessFromImport(): WeaknessArea {
+  const imported = loadImportedDiagnostic();
+  if (!imported?.weaknessScores) return 'prepositions';
+  return (Object.keys(imported.weaknessScores) as WeaknessArea[]).sort(
+    (a, b) => imported.weaknessScores![a] - imported.weaknessScores![b],
+  )[0];
+}
+
 export function Onboarding({ onComplete }: Props) {
+  const [importSeed] = useState(() => loadImportedDiagnostic());
   const [name, setName] = useState('Mizutani');
   const [goal, setGoal] = useState<Goal>('travel');
   const [goalType, setGoalType] = useState<GoalType>('occasion');
   const [step, setStep] = useState<Step>('goal');
-  const [specificGoal, setSpecificGoal] = useState('');
-  const [targetDate, setTargetDate] = useState(defaultTargetDate());
+  const [specificGoal, setSpecificGoal] = useState(() => importSeed?.specificGoal ?? '');
+  const [targetDate, setTargetDate] = useState(() => importSeed?.targetDate ?? defaultTargetDate());
   const [targetLevel, setTargetLevel] = useState('');
   const [restDayOfWeek, setRestDayOfWeek] = useState(0);
-  const [weakness, setWeakness] = useState<WeaknessArea>('prepositions');
+  const [weakness, setWeakness] = useState<WeaknessArea>(initialWeaknessFromImport);
+  const importedDiagnostic = Boolean(importSeed);
 
   const resolvedGoal = specificGoal.trim() || goalDefaults[goal];
   const targetLevelText = targetLevel.trim() || defaultTargetLevelByGoal[goal];
@@ -93,13 +104,15 @@ export function Onboarding({ onComplete }: Props) {
 
   function submit() {
     const primaryWeakness = weakness || inferWeaknessFromGoal(resolvedGoal, goal);
-    const scores = {
+    const imported = loadImportedDiagnostic();
+    const scores = imported?.weaknessScores ?? {
       prepositions: primaryWeakness === 'prepositions' ? 42 : 68,
       pronunciation: primaryWeakness === 'pronunciation' ? 45 : 64,
       wordOrder: primaryWeakness === 'wordOrder' ? 44 : 70,
       retention: primaryWeakness === 'retention' ? 40 : 66,
       grammar: primaryWeakness === 'grammar' ? 43 : 69,
     };
+    const dailyMin = imported?.dailyMinutes ?? 25;
     const plan = buildMasterPlan({
       goal,
       goalType,
@@ -107,7 +120,7 @@ export function Onboarding({ onComplete }: Props) {
       targetDate,
       targetLevel: targetLevelText,
       targetPlLevel,
-      dailyMinutes: 25,
+      dailyMinutes: dailyMin,
       weeklyLongMinutes: 60,
       restDayOfWeek,
       weaknessScores: scores,
@@ -124,7 +137,7 @@ export function Onboarding({ onComplete }: Props) {
       curriculumPlan: plan.curriculumPlan,
       dailyPlan: plan.dailyPlan,
       restDayOfWeek,
-      dailyMinutes: 25,
+      dailyMinutes: dailyMin,
       planner: {
         feasibility: plan.feasibility,
         feasibilityStatus: plan.feasibilityStatus,
@@ -258,6 +271,11 @@ export function Onboarding({ onComplete }: Props) {
 
         {step === 'weakness' && (
           <>
+            {importedDiagnostic && (
+              <p className="feasibility-inline balanced">
+                フル診断の結果を読み込みました。弱点スコアを反映したプランを作成します。
+              </p>
+            )}
             <div className="goal-summary">
               <span>{GOAL_LABELS[goal]} · PL{targetPlLevel}</span>
               <strong>{resolvedGoal}</strong>
