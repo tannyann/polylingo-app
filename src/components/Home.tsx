@@ -1,7 +1,13 @@
+import { useEffect } from 'react';
 import { GOAL_LABELS, SCENARIOS, WEAKNESS_LABELS } from '../data/scenarios';
 import { PATTERN_LEVEL_LABELS, patternsForGoal } from '../data/patterns';
+import { daysSinceLastActive, shouldShowRescheduler } from '../lib/continuity';
 import { dueCards } from '../lib/spacedRepetition';
+import { DojoNotebook } from './DojoNotebook';
 import { NotificationSettings } from './NotificationSettings';
+import { ReschedulerPanel } from './ReschedulerPanel';
+import { TomorrowNote } from './TomorrowNote';
+import { WeaknessRadar } from './WeaknessRadar';
 import type { CurriculumStep, DailyMission, Scenario, SentencePattern, SessionStats, UserProfile, VocabCard, WeaknessArea } from '../types';
 
 interface Props {
@@ -19,6 +25,23 @@ interface Props {
 const weaknessOrder: WeaknessArea[] = ['prepositions', 'pronunciation', 'wordOrder', 'retention', 'grammar'];
 
 export function Home({ profile, stats, vocab, onStartScenario, onStartPattern, onReview, onProgress, onEditProfile, onProfileUpdate }: Props) {
+  const today = new Date().toISOString().slice(0, 10);
+  const missionCount = profile.dailyPlan?.length ?? 3;
+  const completedToday = stats.lastActiveDate === today ? Math.min(missionCount, 1 + stats.patternsCompleted.length % missionCount) : 0;
+  const missedDays = daysSinceLastActive(stats);
+  const showRescheduler = shouldShowRescheduler(stats, profile.reschedulerDismissedAt);
+
+  useEffect(() => {
+    if (profile.tomorrowNoteDraft && profile.tomorrowNoteSaved && profile.tomorrowNoteSaved < today) {
+      onProfileUpdate({
+        ...profile,
+        tomorrowNoteLastShown: profile.tomorrowNoteDraft,
+        tomorrowNoteDraft: undefined,
+        tomorrowNoteSaved: undefined,
+      });
+    }
+  }, [profile, today, onProfileUpdate]);
+
   const due = dueCards(vocab);
   const sortedScenarios = [...SCENARIOS].sort((a, b) => {
     const aMatch = a.goalTags.includes(profile.goal) ? 0 : 1;
@@ -41,6 +64,17 @@ export function Home({ profile, stats, vocab, onStartScenario, onStartPattern, o
           <button className="btn btn-ghost" onClick={onProgress}>進捗</button>
         </div>
       </div>
+
+      {showRescheduler && (
+        <ReschedulerPanel
+          profile={profile}
+          missedDays={missedDays}
+          onChoose={(_, next) => onProfileUpdate(next)}
+          onDismiss={() => onProfileUpdate({ ...profile, reschedulerDismissedAt: today })}
+        />
+      )}
+
+      <WeaknessRadar scores={profile.weaknessScores} />
 
       {profile.specificGoal && (
         <section className="goal-card">
@@ -77,7 +111,11 @@ export function Home({ profile, stats, vocab, onStartScenario, onStartPattern, o
         )}
       </section>
 
+      <DojoNotebook stats={stats} missionCount={missionCount} completedToday={completedToday} />
+
       <NotificationSettings profile={profile} onUpdate={onProfileUpdate} />
+
+      <TomorrowNote profile={profile} onSave={onProfileUpdate} />
 
       {due.length > 0 && (
         <button type="button" className="card review-cta" onClick={onReview}>

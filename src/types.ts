@@ -25,6 +25,10 @@ export interface UserProfile {
   restDayOfWeek?: number;
   dailyMinutes?: number;
   notificationPrefs?: NotificationPreferences;
+  tomorrowNoteDraft?: string;
+  tomorrowNoteSaved?: string;
+  tomorrowNoteLastShown?: string;
+  reschedulerDismissedAt?: string;
   weaknessScores: Record<WeaknessArea, number>;
 }
 

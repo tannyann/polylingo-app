@@ -1,13 +1,17 @@
 :root {
-  --bg: #0d1117;
-  --panel: #111827;
-  --panel-2: #162033;
+  --ink: #2b2b2b;
+  --trust: #1f4e79;
+  --celadon: #7ba7a7;
+  --vermillion: #c84b4b;
+  --bg: #101826;
+  --panel: #152238;
+  --panel-2: #1a2d4a;
   --text: #f5f7fb;
   --muted: #a8b3c7;
-  --border: rgba(255, 255, 255, 0.1);
-  --accent: #80cbc4;
-  --accent-2: #ffb86b;
-  --danger: #ff7b72;
+  --border: rgba(123, 167, 167, 0.22);
+  --accent: #7ba7a7;
+  --accent-2: #c84b4b;
+  --danger: #c84b4b;
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
 }
 
@@ -370,6 +374,77 @@ textarea:focus {
   background: rgba(0, 0, 0, 0.2);
   color: var(--text);
   padding: 8px 10px;
+}
+
+.radar-card,
+.dojo-notebook-card,
+.rescheduler-card,
+.tomorrow-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 20px;
+  display: grid;
+  gap: 14px;
+}
+
+.notebook-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.ink-days {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ink {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ink.filled {
+  background: var(--trust);
+  border-color: transparent;
+}
+
+.today-progress {
+  font-size: 1.6rem;
+  color: var(--celadon);
+}
+
+.future-hint {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.rescheduler-options {
+  display: grid;
+  gap: 10px;
+}
+
+.tomorrow-input {
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text);
+  padding: 12px;
+  font: inherit;
+  resize: vertical;
+}
+
+.coach-reply {
+  margin: 0;
+  padding: 12px 14px;
+  border-left: 3px solid var(--celadon);
+  background: rgba(123, 167, 167, 0.1);
+  border-radius: 12px;
 }
 
 .planner-grid {
