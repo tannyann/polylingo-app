@@ -1,0 +1,719 @@
+:root {
+  --bg: #0d1117;
+  --panel: #111827;
+  --panel-2: #162033;
+  --text: #f5f7fb;
+  --muted: #a8b3c7;
+  --border: rgba(255, 255, 255, 0.1);
+  --accent: #80cbc4;
+  --accent-2: #ffb86b;
+  --danger: #ff7b72;
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.32);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(128, 203, 196, 0.18), transparent 32rem),
+    linear-gradient(180deg, #101826 0%, var(--bg) 100%);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.screen,
+.app-shell {
+  width: min(920px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0 64px;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.hero-panel,
+.card,
+.mission-card {
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0)),
+    rgba(17, 24, 39, 0.82);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.hero-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 48px;
+}
+
+.hero-panel::after {
+  content: '';
+  position: absolute;
+  right: -92px;
+  bottom: -92px;
+  width: 220px;
+  height: 220px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(128, 203, 196, 0.22), transparent 70%);
+  pointer-events: none;
+}
+
+.card,
+.mission-card {
+  padding: 22px;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 4.8rem);
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+  margin-bottom: 18px;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin: 24px 0 10px;
+}
+
+.eyebrow {
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.subtitle,
+.section-copy,
+.row-card p,
+.lesson-card p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.onboarding-card {
+  display: grid;
+  gap: 20px;
+  padding: 28px;
+}
+
+.form-heading {
+  padding-bottom: 4px;
+}
+
+.form-heading h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  letter-spacing: -0.03em;
+}
+
+.form-section {
+  display: grid;
+  gap: 10px;
+}
+
+label,
+.label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(11, 18, 32, 0.76);
+  color: var(--text);
+  padding: 15px 16px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+textarea {
+  min-height: 118px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+input:focus,
+textarea:focus {
+  background: rgba(11, 18, 32, 0.94);
+  border-color: rgba(128, 203, 196, 0.6);
+  box-shadow: 0 0 0 4px rgba(128, 203, 196, 0.1);
+}
+
+.micro-copy {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+.step-actions {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 10px;
+}
+
+.goal-summary,
+.curriculum-preview,
+.goal-card {
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.goal-summary {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+}
+
+.goal-summary span {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.goal-summary strong {
+  line-height: 1.55;
+}
+
+.curriculum-preview {
+  padding: 16px;
+}
+
+.curriculum-preview h3 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+}
+
+.plan-row {
+  display: grid;
+  gap: 3px;
+  padding: 11px 0;
+  border-top: 1px solid var(--border);
+}
+
+.plan-row span {
+  font-weight: 800;
+}
+
+.plan-row small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.chip-grid,
+.mission-grid,
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.goal-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.three-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.weekday-grid {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.feasibility-banner,
+.feasibility-inline {
+  border-radius: 18px;
+  padding: 14px 16px;
+  display: grid;
+  gap: 6px;
+}
+
+.feasibility-banner span,
+.feasibility-inline {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.feasibility-banner.shortfall,
+.feasibility-inline.shortfall,
+.feasibility-tag.shortfall {
+  border: 1px solid rgba(255, 123, 114, 0.35);
+  background: rgba(255, 123, 114, 0.1);
+  color: #ffb4ad;
+}
+
+.feasibility-banner.balanced,
+.feasibility-inline.balanced,
+.feasibility-tag.balanced {
+  border: 1px solid rgba(128, 203, 196, 0.35);
+  background: rgba(128, 203, 196, 0.1);
+  color: var(--accent);
+}
+
+.feasibility-banner.surplus,
+.feasibility-inline.surplus,
+.feasibility-tag.surplus {
+  border: 1px solid rgba(122, 162, 255, 0.35);
+  background: rgba(122, 162, 255, 0.1);
+  color: #9ec5ff;
+}
+
+.feasibility-tag {
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 0.76rem;
+}
+
+.mission-reason {
+  margin: 8px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  color: #c6e9e5;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.notification-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 20px;
+  display: grid;
+  gap: 16px;
+}
+
+.notification-card h2 {
+  margin: 4px 0 0;
+  font-size: 1.25rem;
+}
+
+.notification-toggle-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.notification-slots {
+  display: grid;
+  gap: 10px;
+}
+
+.notification-slot {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+}
+
+.slot-label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.slot-label strong {
+  display: block;
+}
+
+.slot-label small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.notification-slot input[type='time'] {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text);
+  padding: 8px 10px;
+}
+
+.planner-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 10px;
+}
+
+.chip,
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 12px 16px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.chip:hover,
+.btn:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+}
+
+.chip.active,
+.btn-primary {
+  color: #071514;
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 800;
+}
+
+.goal-chip {
+  min-height: 54px;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.goal-chip.active {
+  box-shadow: 0 14px 34px rgba(128, 203, 196, 0.2);
+}
+
+.btn-secondary {
+  color: #201204;
+  background: var(--accent-2);
+  border-color: var(--accent-2);
+  font-weight: 800;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--muted);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.topbar,
+.lesson-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.topbar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.mission-card {
+  background: linear-gradient(135deg, rgba(128, 203, 196, 0.16), rgba(255, 184, 107, 0.09));
+  margin-bottom: 16px;
+}
+
+.goal-card {
+  padding: 20px;
+  margin: 18px 0;
+}
+
+.goal-card h2 {
+  margin: 0 0 14px;
+  line-height: 1.35;
+}
+
+.target-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.target-meta span {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  padding: 5px 10px;
+  font-size: 0.78rem;
+}
+
+.curriculum-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.curriculum-step {
+  min-height: 112px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.curriculum-step span {
+  display: block;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.curriculum-step small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.dojo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.dojo-card {
+  display: grid;
+  gap: 6px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 13px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.dojo-card span {
+  color: var(--accent);
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.dojo-card small {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.mini-card,
+.stat-box {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.mini-card {
+  display: flex;
+  justify-content: space-between;
+}
+
+.review-cta {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.stack {
+  display: grid;
+  gap: 12px;
+}
+
+.row-card {
+  width: 100%;
+  text-align: left;
+  color: inherit;
+}
+
+.row-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+code,
+.formula {
+  display: block;
+  color: var(--accent);
+  margin: 8px 0;
+  white-space: normal;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  padding: 4px 9px;
+  font-size: 0.76rem;
+}
+
+.tag.done {
+  color: var(--accent);
+  border-color: rgba(128, 203, 196, 0.4);
+}
+
+.lesson-card {
+  margin-top: 18px;
+  display: grid;
+  gap: 16px;
+}
+
+.progress-track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin-top: 18px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 0.25s ease;
+}
+
+.tip,
+.feedback {
+  border: 1px solid rgba(255, 184, 107, 0.28);
+  border-radius: 18px;
+  padding: 14px;
+  color: #ffd6a3;
+  background: rgba(255, 184, 107, 0.08);
+}
+
+.feedback.good {
+  display: grid;
+  gap: 6px;
+  color: var(--accent);
+  border-color: rgba(128, 203, 196, 0.35);
+  background: rgba(128, 203, 196, 0.08);
+}
+
+.speech-card,
+.bubble {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 20px;
+  background: var(--panel-2);
+}
+
+.bubble.partner {
+  margin-right: 8%;
+}
+
+.bubble.learner {
+  margin-left: 8%;
+  background: rgba(128, 203, 196, 0.14);
+}
+
+.choice-list {
+  display: grid;
+  gap: 10px;
+}
+
+.choice {
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  padding: 16px;
+}
+
+.weakness-bars {
+  display: grid;
+  gap: 14px;
+}
+
+.weakness-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 44px;
+  gap: 10px;
+  align-items: center;
+}
+
+.bar {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.bar div {
+  height: 100%;
+  background: linear-gradient(90deg, var(--danger), var(--accent-2), var(--accent));
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    display: block;
+  }
+
+  .hero-panel {
+    margin-bottom: 16px;
+  }
+
+  .goal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .topbar,
+  .review-cta,
+  .lesson-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .topbar-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .step-actions,
+  .planner-grid,
+  .curriculum-strip,
+  .dojo-grid {
+    grid-template-columns: 1fr;
+  }
+}
